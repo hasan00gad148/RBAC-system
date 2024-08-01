@@ -10,19 +10,17 @@ const {getUsers, getUser, searchUser, addUser, updateUserRole, delUser} = requir
 const app = express.Router();
 
 
-app.use(authenticateRole([permissions.manageUsers,  permissions.manageRoles]))
+app.get("/users",authenticateRole([permissions.manageUsers,  permissions.manageRoles]), getUsers);
 
-app.get("/users", getUsers);
+app.post("/users/add",authenticateRole([permissions.manageUsers,  permissions.manageRoles]), addUser);
 
-app.post("/users/add", addUser);
+app.get("/users/search",authenticateRole([permissions.manageUsers,  permissions.manageRoles]), searchUser);
 
-app.get("/users/search", searchUser);
+app.get("/users/:id",authenticateRole([permissions.manageUsers,  permissions.manageRoles]), getUser);
 
-app.get("/users/:id", getUser);
+app.post("/users/:id/editrole",authenticateRole([permissions.manageUsers,  permissions.manageRoles]), updateUserRole);
 
-app.post("/users/:id/editrole", updateUserRole);
-
-app.post("/users/:id/del", delUser);
+app.post("/users/:id/del",authenticateRole([permissions.manageUsers,  permissions.manageRoles]), delUser);
 
 
 

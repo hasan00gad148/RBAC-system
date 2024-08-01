@@ -4,7 +4,7 @@ const manageRoles = "manageRoles";
 const viewContent = "viewContent";
 const editContent = "editContent";
 const createContent = "createContent";
-
+const deleteContent = "deleteContent";
 
 module.exports = {
     manageContent,
@@ -12,5 +12,6 @@ module.exports = {
     manageRoles,
     viewContent,
     editContent,
-    createContent
+    createContent,
+    deleteContent
 }

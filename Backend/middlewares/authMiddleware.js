@@ -12,6 +12,9 @@ function authenticateToken(req, res, next) {
 
       try {
         req.user = await User.findByPk(Number(data.user_id));
+        // console.log(req.user, data.user_id);
+        req.user_role = await Role.findByPk(req.user.role_id);
+        
         next();
       } catch (error) {
         return res.status(500).json({ok:false, message: "something went wrong, please try again later",error: error.message});
@@ -28,15 +31,15 @@ function authenticateRole(permissions){
             attributes: ['permissionName'],
             include: {
               model: Role,
-              where: { id: req.user.role_id},
+              where: { id: req.user_role.id},
               }
           })
           rolePermissions = rolePermissions.map((permission) => permission.permissionName)
 
-          console.log("Role permissions:  ", req.session.permissions )
-          
+
           const hasCommonPermission = permissions.some(element => rolePermissions.includes(element));
-    
+          console.log("Role permissions:  ", hasCommonPermission, rolePermissions, permissions)
+          
           if (hasCommonPermission)
             next()
           else

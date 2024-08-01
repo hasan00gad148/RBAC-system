@@ -24,6 +24,7 @@ async function initData(){
         {permissionName: 'viewContent'},
         {permissionName: 'editContent'},
         {permissionName: 'createContent'},
+        {permissionName: 'deleteContent'},
         ])
         
     console.log(Permissions.length);
@@ -39,6 +40,7 @@ async function initData(){
         {permission_id:Permissions[3].id , role_id:roles[1].id},
         {permission_id:Permissions[4].id , role_id:roles[1].id},
         {permission_id:Permissions[5].id , role_id:roles[1].id},
+        {permission_id:Permissions[6].id , role_id:roles[1].id},
         {permission_id:Permissions[3].id , role_id:roles[2].id},
         ])
         

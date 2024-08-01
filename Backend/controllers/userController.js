@@ -79,7 +79,6 @@ async function getUser(req, res){
 
 async function updateUserRole(req, res){
     try {
-
         const [updated] = await User.update({role_id:req.body.role_id}, {
             where: { id: req.params.id }
         });
