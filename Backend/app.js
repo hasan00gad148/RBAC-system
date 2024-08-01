@@ -5,7 +5,9 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const session = require('express-session');
 const {authRouter} = require('./routers/authRoutes.js');
-
+const {rolesRouter} = require("./routers/rolesRoutes.js")
+const {usermanagementRouter} = require("./routers/userManagementRoutes.js")
+const {authenticateToken, authenticateRole} = require("./middlewares/authMiddleware")
 
 
 const app = express();
@@ -24,6 +26,14 @@ app.use(session({
 
 
 app.use(authRouter);
+
+app.use(authenticateToken)
+app.use(rolesRouter)
+app.use(usermanagementRouter)
+
+app.use((req, res, next) => {
+  res.status(404).json({ok:false, message:'Sorry, we could not find that!'});
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

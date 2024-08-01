@@ -5,38 +5,44 @@ const {User, Role, Permission} = require('../models/models');
 
 function authenticateToken(req, res, next) {
     const token = req.headers['authorization'];
-    if (!token) return res.sendStatus(401);
+    if (!token) return res.status(401).json({ok:false, message: "not authenticated"});
   
-    jwt.verify(token, process.env.TOKEN_SECRET,async (err, user_id) => {
-      if (err) return res.sendStatus(403).json({ok:false, message: "wrong jwt token"});
-     
+    jwt.verify(token, process.env.TOKEN_SECRET,async (err, data) => {
+      if (err) return res.status(403).json({ok:false, message: "wrong jwt token"});
+
       try {
-        req.user = await User.findByPk(user_id);
+        req.user = await User.findByPk(Number(data.user_id));
         next();
       } catch (error) {
-        return res.sendStatus(500).json({ok:false, message: "something went wrong, please try again later",error: error.message});
+        return res.status(500).json({ok:false, message: "something went wrong, please try again later",error: error.message});
       } 
     });
 }
 
 function authenticateRole(permissions){
     return async (req, res, next) =>{
-
       try {
-          if (!req.session.permissions || !req.session.permissions.length ) {
-            const userRole = Role.findByPk(req.user.role_id);
-            const rolePermissions = Permission.findAll({where: {role_id:userRole.id}})
-            req.session.permissions = rolePermissions
-          }
 
-          const hasCommonPermission = permissions.some(element => req.session.permissions.includes(element));
+           
+          let rolePermissions =await Permission.findAll({
+            attributes: ['permissionName'],
+            include: {
+              model: Role,
+              where: { id: req.user.role_id},
+              }
+          })
+          rolePermissions = rolePermissions.map((permission) => permission.permissionName)
+
+          console.log("Role permissions:  ", req.session.permissions )
+          
+          const hasCommonPermission = permissions.some(element => rolePermissions.includes(element));
     
           if (hasCommonPermission)
             next()
           else
-            return res.sendStatus(401).json({ok:false, message: "not authorized"});
+            return res.status(401).json({ok:false, message: "not authorized"});
       } catch (error) {
-        return res.sendStatus(500).json({ok:false, message: "something went wrong, please try again later",error: error.message});
+        return res.status(500).json({ok:false, message: "something went wrong, please try again later",error: error.message});
       }
 
     }
