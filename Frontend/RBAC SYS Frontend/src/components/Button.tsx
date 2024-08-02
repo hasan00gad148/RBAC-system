@@ -3,7 +3,7 @@ import React from 'react';
 interface Props {
   name: string;
   className: string;
-  onClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
+  onClick?:(event: React.MouseEvent<HTMLButtonElement, MouseEvent>)=> void;
 }
 
 const Button: React.FC<Props> = ({ name, onClick, className }) => {

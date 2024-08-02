@@ -15,7 +15,7 @@ const Protected: React.FC<ProtectedProps> = ({ authenticated, children }) => {
     if (!user && authenticated) {
       navigate("/login");
     } else if (user && !authenticated) {
-      navigate("/blogs");
+      navigate("/home");
     }
   }, [user, navigate, authenticated]);
 

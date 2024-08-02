@@ -1,29 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import  { UserState } from "../types/types"
 
 
 
 
-
-
-
-interface UserState{
-    id: string,
-    username: string,
-    email: string,
-    phone: string,
-
-    token: string|null|undefined,
-    isLoggedIn: boolean
-  }
 
   const initialState: UserState= {
-    id: '',
-    username: '',
+    id: 0,
+    userName: '',
     email: '',
     phone: '',
-    token: null,
+
+    role_id: 0,
+    role: '',
+
     isLoggedIn: false,
   };
   
@@ -33,14 +25,17 @@ interface UserState{
     reducers: {
 
       login(state, action: PayloadAction<UserState>){
-        state= {...action.payload};
+        console.log(action.payload);
+        
+        return {...action.payload};
       },
       logout(state,){
-        state.id="";
-        state.username="",
+        state.id=0;
+        state.userName="",
         state.email="",
         state.phone="",
-        state.token="",
+        state.role_id=0,
+        state.role=""
         state.isLoggedIn = false
       }
     },
@@ -48,7 +43,7 @@ interface UserState{
   
 
 
-const store = configureStore({
+const userStore = configureStore({
   reducer: {
     user: userSlice.reducer,
   },
@@ -59,11 +54,11 @@ export const { login, logout, } = userSlice.actions;
   
 
 
-export default store;
+export default userStore;
 
 
 
-type RootState = ReturnType<typeof store.getState>;
-type AppDispatch = typeof store.dispatch;
+type RootState = ReturnType<typeof userStore.getState>;
+type AppDispatch = typeof userStore.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

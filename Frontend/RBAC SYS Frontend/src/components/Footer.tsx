@@ -4,7 +4,7 @@ import { SocialIcon } from 'react-social-icons';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-green-800 text-white p-4 shrink-0">
+    <footer className="bg-green-800 text-white p-4 shrink-0 fixed bottom-0 w-full">
       <div className="container mx-auto flex justify-between items-center">
         <div>
           <h2 className="text-xl font-bold">Alhasan Gad</h2>

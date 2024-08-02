@@ -10,7 +10,9 @@ const roles = require('../utills/Roles');
 
 async function getArticles(req, res){
     try {
-        let articles =await Article.findAll({  include: [{
+        let articles =await Article.findAll({  order: [
+            ['createdAt', 'DESC']
+          ],  include: [{
             model: User,
           }]});
         articles = articles.map((article)=>article.toJSON());
@@ -77,6 +79,9 @@ async function searchArticle(req, res){
 async function userArticles(req, res){
     try {
         const articles = await Article.findAll({
+            order: [
+                ['createdAt', 'DESC']
+              ],
             where: {user_id: Number(req.user.id)}
         });
         if(articles)

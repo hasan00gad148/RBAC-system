@@ -1,4 +1,4 @@
-import React, { ChangeEvent, RefObject } from 'react';
+import React, { ChangeEvent,RefCallback } from 'react';
 
 interface Props {
   label?: string;
@@ -6,11 +6,12 @@ interface Props {
   type: string;
   placeHolder?: string;
   value: string;
-  onChange(event: ChangeEvent<HTMLInputElement>): void;
-  errors?: { message: string };
+  onChange?: (event: ChangeEvent<HTMLInputElement>)=>void;
+  errors?:string;
   className?: string;
-  ref?: RefObject<HTMLInputElement>;
+  ref?: RefCallback<HTMLInputElement>;
   id?: string;
+  pattern?: string;
 }
 
 const Input: React.FC<Props> = ({
@@ -22,6 +23,7 @@ const Input: React.FC<Props> = ({
   onChange,
   errors,
   className = '',
+  pattern,
   ref,
   id,
 }) => {
@@ -36,11 +38,12 @@ const Input: React.FC<Props> = ({
           placeholder={placeHolder}
           className={`h-fit p-2 outline-none rounded-md border-2 border-green-700 bg-slate-100 ${className}`}
           type={type}
-          value={value}
+          defaultValue={value}
+          pattern={pattern}
           onChange={onChange}
         />
       </div>
-      {errors ? <span className='text-red-600 font-semibold o-2'>{errors.message}</span> : null}
+      {errors ? <span className='text-red-600 font-semibold o-2'>{errors}</span> : null}
     </>
   );
 };
