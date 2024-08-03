@@ -10,9 +10,12 @@ const roles = require('../utills/Roles');
 
 async function getArticles(req, res){
     try {
-        let articles =await Article.findAll({  order: [
+        let articles =await Article.findAll({  
+        order: [
             ['createdAt', 'DESC']
-          ],  include: [{
+          ], 
+        include: [{
+            attributes:["userName","email"],
             model: User,
           }]});
         articles = articles.map((article)=>article.toJSON());
@@ -55,8 +58,17 @@ async function searchArticle(req, res){
                 [Op.or]: [
                     { id: req.query.identifier },
                     { title: { [Op.like]: `%${ req.query.identifier}%`} },
+                    { '$User.userName$': { [Op.like]: `%${ req.query.identifier}%`} },
+                    { '$User.email$': { [Op.like]: `%${ req.query.identifier}%`}}
                 ]
-            }
+            },
+            order: [
+                ['createdAt', 'DESC']
+              ],  
+            include: [{
+                attributes:["userName","email"],
+                model: User,
+              }],
         });
         if(articles)
             return res.status(200).json({ok:true, articles:articles.map(article => article.toJSON())});
@@ -81,7 +93,11 @@ async function userArticles(req, res){
         const articles = await Article.findAll({
             order: [
                 ['createdAt', 'DESC']
-              ],
+              ],  
+            include: [{
+                attributes:["userName","email"],
+                model: User,
+              }],
             where: {user_id: Number(req.user.id)}
         });
         if(articles)
@@ -103,7 +119,11 @@ async function userArticles(req, res){
 
 async function getArticle(req, res){
     try {
-        const article = await Article.findByPk(Number(req.params.id));
+        const article = await Article.findByPk(Number(req.params.id), 
+        {include: [{
+            attributes:["userName","email"],
+            model: User,
+          }],});
         if(article)
             return res.status(200).json({ok:true, article:article.toJSON()})
         else
@@ -121,6 +141,8 @@ async function getArticle(req, res){
 
 
 async function editArticle(req, res){
+    console.log("req.params.id: ",req.params.id ,req.body);
+    
     try {
         const article = await Article.findByPk(Number(req.params.id));
         if(!article)
@@ -133,7 +155,7 @@ async function editArticle(req, res){
             if (updated) 
                 return res.status(200).json({ok: true, message:"article updated successfully"});
             else 
-                return res.status(500).json({ok: true, message:"something went wrong!!!, please try again later "});
+                return res.status(200).json({ok: false, message:"something went wrong!!!, please try again later "});
         }
         else
             return res.status(403).json({ok: false, message:"not authorized"});

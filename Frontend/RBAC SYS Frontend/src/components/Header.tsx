@@ -38,9 +38,9 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
 
 
               <li><a  className="hover:text-gray-400 cursor-pointer" onClick={()=>{
-                localStorage.setItem("token","")
-                window.location.reload()
+                localStorage.setItem("token","")    
                 navigate("/home")
+                window.location.reload()
               }}>logout</a></li>
           </>
             }

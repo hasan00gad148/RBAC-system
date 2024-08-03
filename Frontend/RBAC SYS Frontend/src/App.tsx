@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Layout, Home,About ,Register, Login, Articles, MyArticles, AdminDashboard, User,  } from "./pages/index";
+import { Layout, Home,About ,Register, Login, Articles, MyArticles, AdminDashboard, User,Article, ArticleForm  } from "./pages/index";
 import {useAppDispatch, login}  from './store/userStore';
 import  { ApiResponseSuccess, ApiResponseFail,  } from "./types/types"
 
@@ -39,12 +39,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="home" element={<Home />} />
+          <Route index path="home" element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
-          <Route path="articles/" element={<Articles />} >
-          </Route>
+          <Route path="articles" element={<Articles />}/>
+          <Route path="articles/add" element={<ArticleForm forEdit={false} />}/>
+          <Route path="articles/:id" element={<Article />}/>
+          <Route path="articles/:id/edit" element={<ArticleForm forEdit={true} />}/>
           <Route path="myarticles" element={<MyArticles />} />
           <Route path="admin" element={<AdminDashboard />} />
           <Route path="user/:id" element={<User />} />

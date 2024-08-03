@@ -4,6 +4,11 @@ interface IFormInputs {
     password: string;
     phone: string;
   }
+
+interface IFormArticleInputs{
+  title: string;
+  content: string;
+}
   
   interface ApiResponseFail {
     ok: false;
@@ -44,5 +49,16 @@ interface IFormInputs {
   }
 
 
-export type { UserState, UserI, ApiResponseSuccess, ApiResponseFail, IFormInputs };
+  interface ArticleI{
+    id: number
+    title: string
+    content: string
+    createdAt: string
+    updatedAt: string
+    User?:{userName: string, email: string}
+  }
+
+export type { UserState, UserI, ApiResponseSuccess,
+   ApiResponseFail, IFormInputs,ArticleI, IFormArticleInputs
+  };
  
