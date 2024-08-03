@@ -2,7 +2,7 @@ import React, { MouseEvent, useEffect, useState } from 'react'
 import  { ArticleI,ApiResponseFail } from "../types/types"
 import {Button} from '../components/index';
 import { useNavigate,useParams } from 'react-router-dom';
-
+import { useAppSelector } from '../store/userStore';
 
 
 
@@ -11,7 +11,7 @@ const Article = () => {
   const [article,setArticle] = useState<ArticleI>();
   const navigate = useNavigate();
   const { id } = useParams();
-
+  const user = useAppSelector((state) => state.user);
 
   useEffect(()=>{
 
@@ -59,6 +59,7 @@ const Article = () => {
         <p>Author: <span className="font-medium">{article.User?.userName}</span></p>
         <p>Email: <span className="font-medium">{article.User?.email}</span></p>
       </div>
+      {user.email === article.User?.email  && 
       <div className='flex justify-center gap-6'>
         
         <Button name={'edit'} className=' bg-yellow-500 text-white ' onClick={async(event: MouseEvent<HTMLButtonElement>) =>{
@@ -90,7 +91,7 @@ const Article = () => {
             }
         }}/>
         
-      </div>
+      </div>}
       </>}
   </div>
   

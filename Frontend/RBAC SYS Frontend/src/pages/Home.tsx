@@ -39,6 +39,12 @@ const Home = () => {
               navigate("/register")
             } }/>
       </div>)}
+      {user.isLoggedIn&&
+          <section className="bg-white  p-6 w-full max-w-2xl mt-6 ">
+              <p>welcome: {user.userName}</p>
+              <p>role: {user.Role.roleName}</p>
+          </section>
+      }
     </section>
   </main>
 
