@@ -5,7 +5,12 @@ const bcrypt = require('bcrypt');
 async function getUsers(req, res){
 
     try {
-        let users =await User.findAll();
+        let users =await User.findAll({   
+         include: {
+            model: Role,
+            as: "Role",
+            attributes: ["roleName"]
+        }});
         users = users.map((user)=>user.toJSON());
         res.status(200).json({ok: true, users: users});
     } catch (error) {
@@ -45,6 +50,11 @@ async function searchUser(req, res){
                     { email: req.query.identifier },
                     { userName: { [Op.like]: `%${ req.query.identifier}%`} }
                 ]
+            },
+            include: {
+                model: Role,
+                as: "Role",
+                attributes: ["roleName"]
             }
         });
         if(users)
@@ -62,7 +72,12 @@ async function searchUser(req, res){
 
 async function getUser(req, res){
     try {
-        const user = await User.findByPk(Number(req.params.id));
+        const user = await User.findByPk(Number(req.params.id),
+       { include: {
+            model: Role,
+            as: "Role",
+            attributes: ["roleName"]
+        }});
         if(user)
             return res.status(200).json({ok:true, user:user.toJSON()})
         else
@@ -86,7 +101,7 @@ async function updateUserRole(req, res){
         if (updated) 
             res.status(200).json({ok: true, message:"user updated successfully"});
         else 
-            res.status(404).json({ok: true, message:"user not found"});
+            res.status(404).json({ok: false, message:"user not updated"});
         
     } catch (error) {
         res.status(500).json({ok: false, message:"something went wrong, please try again later", error: error.message});
@@ -105,7 +120,7 @@ async function delUser(req, res){
         if (deleted) 
             res.status(200).json({ok: true, message:"user deleted successfully"});
         else 
-            res.status(404).json({ok: true, message:"user not found"});
+            res.status(404).json({ok: false, message:"user not deleted "});
 
     } catch (error) {
         res.status(500).json({ok: false, message:"something went wrong, please try again later", error: error.message});

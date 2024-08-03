@@ -33,6 +33,7 @@ const Register = () => {
         dispatcher(login({...resData.user, isLoggedIn: true,})) //
         localStorage.setItem("token",resData.token)
         navigate("/home")
+        window.location.reload();
       }
       else
         alert(resData.message)

@@ -22,7 +22,7 @@ async function auth(req, res) {
         if (user){
             const role = await Role.findByPk(user.role_id);
             user = user.toJSON();
-            user.role = role.roleName;
+            user.Role = {roleName:role.roleName};
             return res.status(200).json({ok:true, user:user})
         }
       } catch (error) {

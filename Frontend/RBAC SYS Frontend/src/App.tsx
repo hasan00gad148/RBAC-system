@@ -1,31 +1,9 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Layout, Home,About ,Register, Login, Articles, MyArticles, AdminDashboard } from "./pages/index";
+import { Layout, Home,About ,Register, Login, Articles, MyArticles, AdminDashboard, User,  } from "./pages/index";
 import {useAppDispatch, login}  from './store/userStore';
+import  { ApiResponseSuccess, ApiResponseFail,  } from "./types/types"
 
-interface ApiResponseFail {
-  ok: false;
-  message: string;
-  error: string;
-}
-
-interface User {
-  id: number;
-  userName: string;
-  password: string;
-  email: string;
-  phone: string;
-  role_id: number;
-  role: string;
-  updatedAt: string;
-  createdAt: string;
-}
-
-interface ApiResponseSuccess { 
-  ok: true;
-  user: User;
-  token: string;
-}
 
 type ApiResponse = ApiResponseSuccess | ApiResponseFail;
 
@@ -54,7 +32,7 @@ function App() {
 
      
     };
-
+// /users/:id/del
     fetchData();
   },[dispatcher])
   return (
@@ -68,9 +46,10 @@ function App() {
           <Route path="articles/" element={<Articles />} >
           </Route>
           <Route path="myarticles" element={<MyArticles />} />
-          <Route path="admin/" element={<AdminDashboard />} >
+          <Route path="admin" element={<AdminDashboard />} />
+          <Route path="user/:id" element={<User />} />
 
-          </Route>
+
         </Route>
       </Routes>
     </BrowserRouter>

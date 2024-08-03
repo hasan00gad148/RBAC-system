@@ -6,11 +6,13 @@ import Layout from './Layout';
 import Login from "./Login";
 import Register from "./Register";
 import MyArticles from "./MyArticles";
-
+import User from "./User";
 
 
 
 
 export {
-    Home, Articles, About, AdminDashboard, Layout, Login, Register, MyArticles
+    Home, Articles, About, AdminDashboard,
+     Layout, Login, Register, MyArticles,
+      User,
 }

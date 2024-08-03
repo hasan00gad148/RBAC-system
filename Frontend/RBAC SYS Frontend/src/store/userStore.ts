@@ -14,7 +14,7 @@ import  { UserState } from "../types/types"
     phone: '',
 
     role_id: 0,
-    role: '',
+    Role: {roleName: ''},
 
     isLoggedIn: false,
   };
@@ -35,7 +35,7 @@ import  { UserState } from "../types/types"
         state.email="",
         state.phone="",
         state.role_id=0,
-        state.role=""
+        state.Role={roleName:""}
         state.isLoggedIn = false
       }
     },

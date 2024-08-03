@@ -18,7 +18,7 @@ interface IFormInputs {
     email: string;
     phone: string;
     role_id: number;
-    role: string;
+    Role: {roleName: string};
     updatedAt: string;
     createdAt: string;
   }
@@ -38,7 +38,7 @@ interface IFormInputs {
     phone: string,
 
     role_id:number,
-    role:string,
+    Role: {roleName: string},
 
     isLoggedIn: boolean
   }
