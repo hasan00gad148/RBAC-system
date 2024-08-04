@@ -15,11 +15,11 @@ const Protected: React.FC<ProtectedProps> = ({ authenticated, roles,children }) 
   useEffect(() => {
     if ((!user.isLoggedIn && authenticated)) {
       navigate("/login");
-    }
-    else if (!roles.includes(user.Role.roleName)){
-      navigate("/home");
     } 
     else if ((user.isLoggedIn && !authenticated) ) {
+      navigate("/home");
+    }
+    else if (user.Role.roleName&&!roles.includes(user.Role.roleName)){
       navigate("/home");
     }
   }, [user, navigate, authenticated, roles]);
