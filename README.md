@@ -124,7 +124,7 @@ navigate to Backend
 cd backend
 npm start
 ```
-The frontend application will run on http://localhost:5173/ and the backend server will run on http://localhost:355.
+The frontend application will run on http://localhost:5173/ and the backend server will run on http://localhost:3505.
 
 ## Features
 - Responsive UI with Tailwind CSS
